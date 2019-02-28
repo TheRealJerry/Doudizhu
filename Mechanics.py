@@ -1,5 +1,16 @@
 import random
 
+class Card:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+    def get_name(self):
+        return self.name
+
+    def get_value(self):
+        return self.value
+    
 class Player:
     def __init__(self, name):
         self.name = name
@@ -30,13 +41,6 @@ class Player:
     def get_role(self):
         return self.is_dizhu
     
-# class Card:
-#     def __init__(self, name, value):
-#         self.colour = colour
-#         self.value = value
-    
-#     def __str__(self):
-#         return self.colour + self.value
 
 class Game:
     def __init__(self, player1_name, player2_name, player3_name):
