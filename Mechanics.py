@@ -1,4 +1,5 @@
 import random
+#Mingkang noob
 
 class Player:
     def __init__(self, name):
