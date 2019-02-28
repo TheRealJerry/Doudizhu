@@ -1,4 +1,4 @@
-order = ['3','4','5','6','7','8','9','10','J','Q','K','A','2','R']
+order = ['3','4','5','6','7','8','9','10','J','Q','K','A','2','小王','大王']
 
 def convert_combi_to_value(combi):
     global order
@@ -128,7 +128,7 @@ def check_3_card(combi):
 ##
 
 def check_bigger(combi1, combi2):
-    order = ['3','4','5','6','7','8','9','10','J','Q','K','A','2','R']
+    global order
     dic1 = {}
     dic2 = {}
     triplet1 = ''

@@ -10,7 +10,10 @@ class Card:
 
     def get_value(self):
         return self.value
-    
+
+    def __str__(self):
+        return self.name +', '+  str(self.value)
+
 class Player:
     def __init__(self, name):
         self.name = name
@@ -24,13 +27,24 @@ class Player:
         self.card.append(card)
     
     def rank_cards(self):
-        self.card.sort()
-        order = ['34567891JQKA2小大'.index(r[1] if r[1] != '王' else r[0]) for r in self.card]
-        temp_dict = dict((self.card[i], order[i]) for i in range(17))
-        self.card = list(map(lambda pair: pair[0], sorted(temp_dict.items(), key=lambda x: x[1])))
+        def quicksort(lst):
+            if len(lst) <= 1:
+                return lst
+            else:
+                pivot = lst[0]
+                small_lst = []
+                big_lst = []
+                for ele in lst[1:]:
+                    if ele.get_value() > pivot.get_value():
+                        big_lst.append(ele)
+                    else:
+                        small_lst.append(ele)
+                return quicksort(small_lst) + [pivot,] + quicksort(big_lst)
+        self.card = quicksort(self.card)
+
 
     def remove_card(self, card):
-        self.card.remove(card)
+        self.card.remove(card) #  card should be index of the card
 
     def get_card(self):
         return self.card
@@ -40,13 +54,14 @@ class Player:
 
     def get_role(self):
         return self.is_dizhu
-    
 
+
+#  test code
 class Game:
     def __init__(self, player1_name, player2_name, player3_name):
-        value = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
+        value = ['3','4','5','6','7','8','9','10','J','Q','K','A','2']
         colour = ['\u2660','\u2663','\u2665','\u2666']
-        self.card_set = ['大王','小王']
+        self.card_set = [Card('大王', 14), Card('小王', 13)]
         self.Player1 = Player(player1_name)
         self.Player2 = Player(player2_name)
         self.Player3 = Player(player3_name)
@@ -54,7 +69,7 @@ class Game:
         self.multiplier = 1
         for i in colour:
             for n in value:
-                self.card_set.append(i+n)
+                self.card_set.append(Card(i+n, value.index(n)))
     
     def shuffle(self):
         random.shuffle(self.card_set)
@@ -65,14 +80,14 @@ class Game:
             self.Player1.add_card(self.card_set[i])
             self.Player2.add_card(self.card_set[i+1])
             self.Player3.add_card(self.card_set[i+2])
-
+            
         self.Player1.rank_cards()
         self.Player2.rank_cards()
         self.Player3.rank_cards()
-        print(self.Player1.get_card())
-        print(self.Player2.get_card())
-        print(self.Player3.get_card())
-        print(self.reserved_cards)
+        print('Player1 Player2  Player3')
+        for i in range(len(self.Player1.get_card())):            
+            print(' ', self.Player1.get_card()[i], ' ', self.Player2.get_card()[i], '  ', self.Player3.get_card()[i])
+        for i in range(0,3):print(self.reserved_cards[i])
 
     def auction(self):
         def check_input(user_input):
