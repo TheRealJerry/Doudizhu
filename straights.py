@@ -1,9 +1,46 @@
+def compare(curr_list, prev_list):
+    current_list = []
+    previous_list = []
+    if prev_list = None:
+        return True
+    for ele in curr_list:
+        current_list.append(ele.get_value())
+    for ele in prev_list:
+        previous_list.append(ele.get_value())
+    if len(current_list) == 4 and current_list.count(current_list[0]) == 4:
+        if len(previous_list) == 4 and previous_list.count(previous_list[0]) == 4:
+            if current_list[0] > previous_list[0]:
+                return True
+            return False
+        return True
+
+    elif len(current_list) == 2 and current_list[0].get_value() > 12 and current_list[1].get_value() > 12:
+        return True
+    
+    elif check_3_card(current_list):
+        if check_3_card(previous_list):
+            return check_bigger(previous_list, current_list)
+        return False
+
+    else:
+        return is_straight(previous_list, current_list) or is_pair(previous_list, current_list) \
+            or is_straight_pair(previous_list, current_list) or is_bigger(previous_list, current_list)
+
+
+
+
+
+
+
+
+
+
 
 # straights
 # if value input is lst
 def is_straight(prev, value):
-    combi = value.get_value()
-    p_combi = prev.get_value()
+    combi = value
+    p_combi = prev
     def helper(value):
         if len(value) < 5 or int(value[-1]) > 12:    # if last card is bigger than Ace
             return False
@@ -25,8 +62,8 @@ def is_straight(prev, value):
     return res
 
 def is_pair(prev, value):
-    combi = value.get_value()
-    p_combi = prev.get_value()
+    combi = value
+    p_combi = prev
     def helper(value):
         if len(value) != 2 or value[0] != value[1]:
             return False
@@ -45,8 +82,8 @@ def is_pair(prev, value):
 ##print(is_pair(['J','J'], ['2','2']))
 
 def is_straight_pair(prev, value):
-    combi = value.get_value()
-    p_combi = prev.get_value()
+    combi = value
+    p_combi = prev
     if len(combi) < 6 or int(combi[-1]) > 12 or len(combi) % 2 != 0:
         return False
     else:
@@ -71,8 +108,8 @@ def is_straight_pair(prev, value):
         return res    
      
 def is_bigger(prev_val, curr_val):
-    combi = value.get_value()
-    p_combi = prev.get_value()
+    combi = value
+    p_combi = prev
     return int(p_combi) < int(combi)
 
 def check_3_card(combi):
