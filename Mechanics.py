@@ -42,9 +42,11 @@ class Player:
                 return quicksort(small_lst) + [pivot,] + quicksort(big_lst)
         self.card = quicksort(self.card)
 
+    def clear_cards(self):
+        self.card = []
 
     def remove_card(self, card):
-        self.card.remove(card) #  card should be index of the card
+        self.card.remove(card)
 
     def get_card(self):
         return self.card
@@ -65,15 +67,25 @@ class Game:
         self.Player1 = Player(player1_name)
         self.Player2 = Player(player2_name)
         self.Player3 = Player(player3_name)
+        self.player_list = [self.Player1, self.Player2, self.Player3]
+        self.Dizhu = None
         self.reserved_cards = []
         self.multiplier = 1
         for i in colour:
             for n in value:
                 self.card_set.append(Card(i+n, value.index(n)))
     
+
+
+
+
     def shuffle(self):
         random.shuffle(self.card_set)
     
+
+
+
+
     def distribute_cards(self):
         self.reserved_cards = self.card_set[-3:]
         for i in range(0,51,3):
@@ -84,45 +96,71 @@ class Game:
         self.Player1.rank_cards()
         self.Player2.rank_cards()
         self.Player3.rank_cards()
-        print('Player1 Player2  Player3')
+        print('Player1   Player2   Player3')
         for i in range(len(self.Player1.get_card())):            
             print(' ', self.Player1.get_card()[i], ' ', self.Player2.get_card()[i], '  ', self.Player3.get_card()[i])
         for i in range(0,3):print(self.reserved_cards[i])
 
+
+
+
+
     def auction(self):
+
         def check_input(user_input):
             if (int(user_input) > previous[1]) or (int(user_input) == 0):
                 return True 
             return False
 
-        player_list = [self.Player1, self.Player2, self.Player3]
-        random.shuffle(player_list)
-        for player in player_list:
-            print(player.get_name())
-        previous = [None, 0]
-        for person in player_list:
-            done = False
-            while not done:
-                user_input = input('Please choose your confidence level from (0, 1, 2, 3): ')
-                done = check_input(user_input)
-            previous = [person, int(user_input)]
-            if int(user_input) == 3:
-                break
-        if previous[1] != 0:
-            previous[0].set_role(True)
-            self.multiplier = previous[1]
-        else:
+        starter = random.choice(self.player_list)
+        self.player_list = self.player_list[self.player_list.index(starter):3]+self.player_list[:self.player_list.index(starter)]
+
+        finished = False
+
+        while not finished:
+            for player in self.player_list:
+                print(player.get_name())
+                player.clear_cards()
             self.shuffle()
             self.distribute_cards()
-            self.auction()
+            previous = [None, 0]
+            for person in self.player_list:
+                done = False
+                while not done:
+                    user_input = input('Please choose your confidence level from (0, 1, 2, 3): ')
+                    done = check_input(user_input)
+                if int(user_input) > 0:
+                    previous = [person, int(user_input)]
+                if int(user_input) == 3:
+                    break
+            if previous[1] != 0:
+                self.Dizhu = previous[0]
+                self.Dizhu.set_role(True)
+                for card in self.reserved_cards:
+                    self.Dizhu.add_card(card)
+                self.multiplier = previous[1]
+                finished = done
 
-        print(self.Player1.get_role())
-        print(self.Player2.get_role())
-        print(self.Player3.get_role())
-        print(self.multiplier)
+        
+        # print(self.Player1.get_name(), ('is Dizhu' if self.Player1.get_role() else 'is not Dizhu'))
+        # print(self.Player2.get_name(), ('is Dizhu' if self.Player2.get_role() else 'is not Dizhu'))
+        # print(self.Player3.get_name(), ('is Dizhu' if self.Player3.get_role() else 'is not Dizhu'))
+        # print('Multiplier: ' + str(self.multiplier))
 
 
-game = Game('MK','JR','ZY')
-game.shuffle()
-game.distribute_cards()
+    def winning_condition(self):
+        return ((self.Player1.get_card() == []) or (self.Player2.get_card() == []) or (self.Player3.get_card() == []))
+
+
+    # def play(self):
+    #     won = False
+    #     while not won:
+
+
+
+
+
+
+
+game = Game('JR','MK','ZY')
 game.auction()
