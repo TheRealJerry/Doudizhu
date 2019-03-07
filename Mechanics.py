@@ -45,8 +45,8 @@ class Player:
     def clear_cards(self):
         self.card = []
 
-    def remove_card(self, card):
-        self.card.remove(card)
+    def remove_card(self, card_index):
+        self.card.pop(card_index)
 
     def get_card(self):
         return self.card
@@ -56,6 +56,9 @@ class Player:
 
     def get_role(self):
         return self.is_dizhu
+    
+    def check_winning(self):
+        return self.card == []
 
 
 #  test code
@@ -148,13 +151,38 @@ class Game:
         # print('Multiplier: ' + str(self.multiplier))
 
 
-    def winning_condition(self):
-        return ((self.Player1.get_card() == []) or (self.Player2.get_card() == []) or (self.Player3.get_card() == []))
+
+    def play(self):
+        def check_input(user_input, player):
+            if 0 <= int(user_input) < len(player.get_card()):
+                return True 
+            return False
+        
+        
+        previous_card = None
+        won = False
+        counter = self.player_list.index(self.Dizhu)
+        while not won:
+            current_player = self.player_list[counter]
+            done = False
+            while not done:
+                card_index = input('Key in the index of the card you want to use: ')
+                current_card = current_player.get_card(card_index)
+                done = (check_input(card_index, current_player) and compare(current_card, previous_card))
+            current_player.remove_card(card_index)
+            previous_card = current_card
 
 
-    # def play(self):
-    #     won = False
-    #     while not won:
+            if counter != 2:
+                counter += 1
+            else:
+                counter = 0
+            
+            won = current_player.check_winning()
+        
+        print('{}.get_name() has won!'.format(current_player = current_player)
+
+
 
 
 
