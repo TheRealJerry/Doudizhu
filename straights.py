@@ -27,15 +27,12 @@ def is_straight(prev, value):
 def is_pair(prev, value):
     combi = value.get_value()
     p_combi = prev.get_value()
-    print(p_combi, combi)
     def helper(value):
         if len(value) != 2 or value[0] != value[1]:
             return False
         return True, value
 
     res = helper(combi)
-
-    print(res)
     if res != False:
         if p_combi[0] < combi[0]:
             return helper(combi)
@@ -44,8 +41,8 @@ def is_pair(prev, value):
         
     return res
 
-print(is_pair(['2','2'], ['3','3']))
-print(is_pair(['J','J'], ['2','2']))
+##print(is_pair(['2','2'], ['3','3']))
+##print(is_pair(['J','J'], ['2','2']))
 
 def is_straight_pair(prev, value):
     combi = value.get_value()
@@ -110,45 +107,13 @@ def check_3_card(combi):
 
     return check
             
-##print(check_3_card('JRRJJ'))
-##print(check_3_card('JAJJ'))
-##print(check_3_card('26662'))
-##
 
-def check_bigger(combi1, combi2):
-    global order
-    dic1 = {}
-    dic2 = {}
-    triplet1 = ''
-    triplet2 = ''
-    check1 = 0
-    check2 = 0
-    for i in range(len(combi1)):
-        if combi1[i] not in dic1:
-            dic1[combi1[i]] = 1
-        else:
-            dic1[combi1[i]] += 1
-            
-    for j in range(len(combi2)):
-        if combi2[j] not in dic2:
-            dic2[combi2[j]] = 1
-        else:
-            dic2[combi2[j]] += 1
 
-    for k in dic1:
-        if dic1[k] == 3:
-            triplet1 += k
+def check_bigger(prev, curr): #  for triplets
+    max_prev = max(prev,key=prev.count)
+    max_curr = max(curr,key=curr.count)
+    return max_prev < max_curr
 
-    for z in dic2:
-        if dic2[z] == 3:
-            triplet2 += z
-    for card in range(len(order)):
-        if order[card] == triplet1:
-            check1 = card
-        elif order[card] == triplet2:
-            check2 = card
-    return check2 > check1
-
-    
+#print(check_bigger(['1', '1', '1', '2', '2'], ['3', '3', '3', '4', '4']))
 ##print(is_straight_pair(['2', '2','3', '3','4', '4'], ['1', '1', '2', '2','3', '3']))
 
