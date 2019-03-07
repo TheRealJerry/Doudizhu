@@ -1,21 +1,9 @@
-order = ['3','4','5','6','7','8','9','10','J','Q','K','A','2','小王','大王']
 
-def convert_combi_to_value(combi):
-    global order
-    value = []
-    for car in combi:
-        for ele in order:
-            if car == ele:
-                value.append(order.index(ele) + 1)
-                break
-    return value
-
-print(convert_combi_to_value('333'))
 # straights
 # if value input is lst
 def is_straight(prev, value):
-    combi = convert_combi_to_value(value)
-    p_combi = convert_combi_to_value(prev)
+    combi = value.get_value()
+    p_combi = prev.get_value()
     def helper(value):
         if len(value) < 5 or int(value[-1]) > 12:    # if last card is bigger than Ace
             return False
@@ -37,8 +25,8 @@ def is_straight(prev, value):
     return res
 
 def is_pair(prev, value):
-    combi = convert_combi_to_value(value)
-    p_combi = convert_combi_to_value(prev)
+    combi = value.get_value()
+    p_combi = prev.get_value()
     print(p_combi, combi)
     def helper(value):
         if len(value) != 2 or value[0] != value[1]:
@@ -60,8 +48,8 @@ print(is_pair(['2','2'], ['3','3']))
 print(is_pair(['J','J'], ['2','2']))
 
 def is_straight_pair(prev, value):
-    combi = convert_combi_to_value(value)
-    p_combi = convert_combi_to_value(prev)
+    combi = value.get_value()
+    p_combi = prev.get_value()
     if len(combi) < 6 or int(combi[-1]) > 12 or len(combi) % 2 != 0:
         return False
     else:
@@ -86,8 +74,8 @@ def is_straight_pair(prev, value):
         return res    
      
 def is_bigger(prev_val, curr_val):
-    combi = convert_combi_to_value(value)
-    p_combi = convert_combi_to_value(prev)
+    combi = value.get_value()
+    p_combi = prev.get_value()
     return int(p_combi) < int(combi)
 
 def check_3_card(combi):
