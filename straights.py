@@ -1,45 +1,3 @@
-# def compare(curr_list, prev_list):
-#     current_list = []
-#     previous_list = []
-#     if prev_list = None:
-#         return True
-#     for ele in curr_list:
-#         current_list.append(ele.get_value())
-#         current_list.sort()
-#     for ele in prev_list:
-#         previous_list.append(ele.get_value())
-#         previous_list.sort()
-
-
-#     if len(current_list) == 4 and current_list.count(current_list[0]) == 4:
-#         if len(previous_list) == 4 and previous_list.count(previous_list[0]) == 4:
-#             if current_list[0] > previous_list[0]:
-#                 return True
-#             return False
-#         return True
-
-#     elif len(current_list) == 2 and current_list[0].get_value() > 12 and current_list[1].get_value() > 12:
-#         return True
-    
-#     elif check_3_card(current_list):
-#         if check_3_card(previous_list):
-#             return check_bigger(previous_list, current_list)
-#         return False
-
-#     else:
-#         return is_straight(previous_list, current_list) or is_pair(previous_list, current_list) \
-#             or is_straight_pair(previous_list, current_list) or is_bigger(previous_list, current_list)
-
-
-
-
-
-
-
-
-
-
-
 def straight(curr_lst, prev_lst):
     def helper(value):
         if len(value) < 5 or int(value[-1]) > 11:    # if last card is bigger than Ace
@@ -133,6 +91,50 @@ def single_card(curr_lst, prev_lst):
 # test case
 # print(single_card(['12'], ['2'])) # True
 # print(single_card(['1'], ['3'])) # False
+
+
+
+
+
+def compare(curr_list, prev_list):
+    current_list = []
+    previous_list = []
+    if prev_list == []:
+        return True
+    for ele in curr_list:
+        current_list.append(ele.get_value())
+        current_list.sort()
+    for ele in prev_list:
+        previous_list.append(ele.get_value())
+        previous_list.sort()
+
+
+    if len(current_list) == 4 and current_list.count(current_list[0]) == 4:     # Check Bomb
+        if len(previous_list) == 4 and previous_list.count(previous_list[0]) == 4:
+            if int(current_list[0]) > int(previous_list[0]):
+                return True
+            return False
+        else:
+            if previous_list == ['13', '14']:
+                return False
+            return True
+
+    elif len(current_list) == 2 and int(current_list[0]) > 12 and int(current_list[1]) > 12:     # Check Rocket
+        return True
+
+    else:
+        return straight(current_list, previous_list) or pair(current_list, previous_list) or straight_pair(current_list, previous_list) \
+            or single_card(current_list, previous_list)
+
+
+
+
+
+
+
+
+
+
 
 
 

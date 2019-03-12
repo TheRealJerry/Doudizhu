@@ -1,4 +1,6 @@
+
 import random
+from straights import compare
 
 class Card:
     def __init__(self, name, value):
@@ -12,7 +14,7 @@ class Card:
         return self.value
 
     def __str__(self):
-        return self.name +', '+  str(self.value)
+        return self.name
 
 class Player:
     def __init__(self, name):
@@ -50,6 +52,10 @@ class Player:
 
     def get_card(self):
         return self.card
+
+    def print_card(self):
+        for i in self.card:
+            print(str(i), end = ' ')
 
     def set_role(self, boolean):
         self.is_dizhu = boolean
@@ -99,11 +105,18 @@ class Game:
         self.Player1.rank_cards()
         self.Player2.rank_cards()
         self.Player3.rank_cards()
-        print('Player1   Player2   Player3')
-        for i in range(len(self.Player1.get_card())):            
-            print(' ', self.Player1.get_card()[i], ' ', self.Player2.get_card()[i], '  ', self.Player3.get_card()[i])
-        for i in range(0,3):print(self.reserved_cards[i])
 
+        print('Player 1({}) Cards: '.format(self.Player1.get_name(), end = ''))
+        self.Player1.print_card()
+        print('\nPlayer 2({}) Cards: '.format(self.Player2.get_name(), end = ''))
+        self.Player2.print_card()
+        print('\nPlayer 3({}) Cards: '.format(self.Player3.get_name(), end = ''))
+        self.Player3.print_card()
+            
+        print('\nReserved Cards: ', end = '')
+        for i in range(3):
+            print(self.reserved_cards[i], end = ' ')
+        print('\n')
 
 
 
@@ -122,7 +135,6 @@ class Game:
 
         while not finished:
             for player in self.player_list:
-                print(player.get_name())
                 player.clear_cards()
             self.shuffle()
             self.distribute_cards()
@@ -130,7 +142,7 @@ class Game:
             for person in self.player_list:
                 done = False
                 while not done:
-                    user_input = input('Please choose your confidence level from (0, 1, 2, 3): ')
+                    user_input = input('{}, Please choose your confidence level from (0, 1, 2, 3): '.format(person.get_name()))
                     done = check_input(user_input)
                 if int(user_input) > 0:
                     previous = [person, int(user_input)]
@@ -138,9 +150,11 @@ class Game:
                     break
             if previous[1] != 0:
                 self.Dizhu = previous[0]
+                print('{} has become Dizhu!'.format(self.Dizhu.get_name()))
                 self.Dizhu.set_role(True)
                 for card in self.reserved_cards:
                     self.Dizhu.add_card(card)
+                self.Dizhu.rank_cards()
                 self.multiplier = previous[1]
                 finished = done
 
@@ -151,26 +165,36 @@ class Game:
         # print('Multiplier: ' + str(self.multiplier))
 
 
-
     def play(self):
         def check_input(user_input, player):
-            if 0 <= int(user_input) < len(player.get_card()):
-                return True 
-            return False
-        
-        
-        previous_card = None
+           for card_index in user_input:
+               if int(card_index) < 0 or int(card_index) >= len(player.get_card()):
+                   return False 
+           return True
+       
+       
+        previous_card_lst = []
         won = False
         counter = self.player_list.index(self.Dizhu)
         while not won:
             current_player = self.player_list[counter]
             done = False
             while not done:
-                card_index = input('Key in the index of the card you want to use: ')
-                current_card = current_player.get_card(card_index)
-                done = (check_input(card_index, current_player) and compare(current_card, previous_card))
-            current_player.remove_card(card_index)
-            previous_card = current_card
+                print("\n\n{}'s cards: ".format(current_player.get_name(), end = ''))
+                current_player.print_card()
+                card_indexes = input('\n{}, please key in the index of the card(s) you want to use (index starts from 0): '.format(current_player.get_name())).split(' ')
+                current_card_lst = []
+                for card_index in card_indexes:
+                    current_card_lst.append(current_player.get_card()[int(card_index)])
+                done = (check_input(card_indexes, current_player) and compare(current_card_lst, previous_card_lst))
+                if not done:
+                    print('\nThe combination of cards is not valid!')
+            card_indexes.sort(reverse=True)
+            for card_index in card_indexes:
+                current_player.remove_card(int(card_index))
+            print("{}'s cards left: ".format(current_player.get_name(), end = ''))
+            current_player.print_card()
+            previous_card_lst = current_card_lst
 
 
             if counter != 2:
@@ -179,8 +203,8 @@ class Game:
                 counter = 0
             
             won = current_player.check_winning()
-        
-        print('{}.get_name() has won!'.format(current_player = current_player)
+       
+        print('{}.get_name() has won!'.format(current_player = current_player))
 
 
 
@@ -192,3 +216,4 @@ class Game:
 
 game = Game('JR','MK','ZY')
 game.auction()
+game.play()
