@@ -155,11 +155,11 @@ def fei(curr_lst, prev_lst):
             return False
         return True, min(three)
 
-    if prev_lst == []:
-        return checker(curr_lst)[0]
+    if checker(curr_lst) is False:
+        return False
     else:
-        if checker(curr_lst) is False:
-            return False
+        if prev_lst == []:
+            return True
         elif len(curr_lst) != len(prev_lst):
             return False
         else:
@@ -199,27 +199,33 @@ def check_3_card(curr_lst, prev_lst):
                 final = ele[0]
         return True, int(final)
 
-    if prev_lst == []:
-        return helper(curr_lst)[0]
-    else:
-        if helper(curr_lst) is False:
+    if helper(curr_lst) is False:
             return False
+    else:
+        if prev_lst == []:
+            return True
         elif helper(prev_lst) is True:
             return False
         elif len(curr_lst) != len(prev_lst):
             return False
         return helper(curr_lst)[1] > helper(prev_lst)[1]
 
+# test case
+# print(check_3_card(['10','10','10','1'],['9','9','9','2'])) # True
+# print(check_3_card(['11','11','11','3'],['12','12','12','2'])) # False
+# print(check_3_card(['9','9','9','2','2'],['5','5','5','1','1'])) # True
+# print(check_3_card(['9','9','9','2'],['5','5','5','1','1'])) # False
+# print(check_3_card(['1','1','1','2'],[])) # True
+
+
 
 def check_4_card(curr_lst, prev_lst):
     if curr_lst is []:
-        print(1)
         return False
 
     def helper(lst):
         if len(lst) != 6:
             if len(lst) != 8:
-                print(2)
                 return False
 
         char_lst = []
@@ -230,22 +236,18 @@ def check_4_card(curr_lst, prev_lst):
                 ele_counter.append(lst.count(ele))
         if len(char_lst) != 2:
             if len(char_lst) != 3:
-                print(3)
                 return False
         # feiji check
         if ele_counter.count(4) != 1:
             if ele_counter.count(4) != 2:
-                print(4)
                 return False
         if len(lst) == 6:
             if ele_counter.count(1) != 2:
                 if ele_counter.count(2) != 1 or len(char_lst) != 2:
-                    print('issues')
                     return False
         if len(lst) == 8:
             if ele_counter.count(2) != 2:
                 if ele_counter.count(4) != 2 or len(char_lst) != 2:
-                    print(5)
                     return False
         final = []
         for ele in char_lst:
@@ -256,16 +258,25 @@ def check_4_card(curr_lst, prev_lst):
     if helper(curr_lst) is False:
         return False
     elif prev_lst == []:
-        print('run')
-        return helper(curr_lst)[0]
+        return True
     elif helper(prev_lst) is False:
-        print(6)
         return False
     elif len(curr_lst) != len(prev_lst):
-        print(7)
         return False
-    print(8)
     return helper(curr_lst)[1] > helper(prev_lst)[1]
+
+# test case
+# print(check_4_card(['10','10','10','10','6','1'],['9','9','9','9','8','2'])) # True
+# print(check_4_card(['11','11','11','11','8','3'],['12','12','12','12','5','2'])) # False
+# print(check_4_card(['9','9','9','9','2','2'],['5','5','5','5','1','2'])) # True
+# print(check_4_card(['9','9','9','9','1','2'],[])) # True
+# print(check_4_card(['12','12','12','12','5','2','5','2'],['11','11','11','11','8','8','3','3'])) # True
+# print(check_4_card(['12','12','12','12','5','2','3','2'],['11','11','11','11','8','8','3','3'])) # False
+# print(check_4_card(['8','8','8','8','5','5','3','3'],['11','11','11','11','8','8','3','3'])) # False
+# print(check_4_card(['12','12','12','12','5','5','3','3'],['11','11','11','11','8','8'])) # False
+
+
+
 
 
 def compare(curr_list, prev_list):
@@ -283,4 +294,5 @@ def compare(curr_list, prev_list):
 
     else:
         return straight(current_list, previous_list) or pair(current_list, previous_list) or straight_pair(current_list, previous_list) \
-                or single_card(current_list, previous_list) or fei(current_list, previous_list) or check_3_card(current_list, previous_list)
+                or single_card(current_list, previous_list) or fei(current_list, previous_list) or check_3_card(current_list, previous_list) \
+                    or check_4_card(current_list, previous_list) or bomb(current_list, previous_list)

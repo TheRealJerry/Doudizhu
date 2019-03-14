@@ -53,8 +53,9 @@ class Player:
         return self.card
 
     def print_card(self):
-        for i in self.card:
-            print(str(i), end = ' ')
+
+        for i in range(len(self.card)):
+            print(str(self.card[i])+'[{}]'.format(i), end = ' ')
 
     def set_role(self, boolean):
         self.is_dizhu = boolean
@@ -197,7 +198,10 @@ class Game:
                     done = (check_input(card_indexes, current_player) and compare(current_card_lst, previous_card_lst))
                 if not done:
                     print('\nThe combination of cards is not valid!')
+            card_indexes = list(map(lambda x:int(x), card_indexes))
             card_indexes.sort(reverse=True)
+            
+            print(card_indexes)
             if not no_card_use:
                 previous_card_lst = current_card_lst
                 for card_index in card_indexes:
@@ -216,7 +220,7 @@ class Game:
             
             won = current_player.check_winning()
        
-        print('{}.get_name() has won!'.format(current_player = current_player))
+        print('{} has won!'.format(current_player.get_name()))
 
 
 
