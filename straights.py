@@ -12,11 +12,14 @@ def straight(curr_lst, prev_lst):
             return True
 
     res = helper(curr_lst)
-    if res and helper(prev_lst):
-        if prev_lst[0] < curr_lst[0]:
+    if res:
+        if prev_lst == []:
             return True
-        else:
-            return False
+        elif helper(prev_lst):
+            if prev_lst[0] < curr_lst[0]:
+                return True
+            else:
+                return False
     return False
 
 # test cases
@@ -32,11 +35,14 @@ def pair(curr_lst, prev_lst):
         return True
 
     res = helper(curr_lst)
-    if res and helper(prev_lst):
-        if prev_lst[0] < curr_lst[0]:
+    if res:
+        if prev_lst == []:
             return True
-        else:
-            return False
+        elif helper(prev_lst):
+            if prev_lst[0] < curr_lst[0]:
+                return True
+            else:
+                return False
     return False
 
 # test cases
@@ -67,9 +73,12 @@ def straight_pair(curr_lst, prev_lst):
 
     if helper1(curr_lst):
         res = helper2(curr_lst, [str(int(curr_lst[0])-1), str(int(curr_lst[0])-1)])
-        if res and helper2(prev_lst, [str(int(prev_lst[0])-1), str(int(prev_lst[0])-1)]):
-            if prev_lst[0] < curr_lst[0] and len(prev_lst) == len(curr_lst):
+        if res:
+            if prev_lst == []:
                 return True
+            elif helper2(prev_lst, [str(int(prev_lst[0])-1), str(int(prev_lst[0])-1)]):
+                if prev_lst[0] < curr_lst[0] and len(prev_lst) == len(curr_lst):
+                    return True
         return False
 
     return False
@@ -80,12 +89,16 @@ def straight_pair(curr_lst, prev_lst):
 # print(straight_pair(['3','3','4','4','5','5','6','6'],['1','1','2','2','3','4','4','4'])) # False
 # print(straight_pair(['3','3','4','4','5','5','6','6'],['1','1','2','2','3','3'])) # False
 # print(straight_pair(['3','3','4','4','5','5','6','6'],['0','0','1','1','2','2','3','3'])) # True
+# print(straight_pair(['3','3','4','4','5','5','6','6'],[])) # True
 
 
 
 def single_card(curr_lst, prev_lst):
-    if len(prev_lst) == len(curr_lst) == 1:
-        return int(prev_lst[0]) < int(curr_lst[0])
+    if len(curr_lst) == 1:
+        if prev_lst == []:
+            return True
+        elif len(prev_lst) == 1:
+            return int(prev_lst[0]) < int(curr_lst[0])
     return False
 
 # test case
@@ -94,13 +107,30 @@ def single_card(curr_lst, prev_lst):
 
 
 
+def bomb(curr_lst, prev_list):
+    if len(curr_lst) == 4 and curr_lst.count(curr_lst[0]) == 4:
+        if prev_list == []:
+            return True
+        elif len(prev_list) == 4 and prev_list.count(prev_list[0]) == 4:
+            if int(curr_lst[0]) > int(prev_list[0]):
+                return True
+            return False
+        else:
+            if prev_list == ['13', '14']:
+                return False
+            return True
+
+# test case
+print(bomb(['4','4','4','4'], ['5','5','5','5'])) # False
+print(bomb(['6','6','6','6'], ['3','3','3','3'])) # True
+print(bomb(['8','8','8','8'], ['13', '14'])) # False
+
+
 
 
 def compare(curr_list, prev_list):
     current_list = []
     previous_list = []
-    if prev_list == []:
-        return True
     for ele in curr_list:
         current_list.append(ele.get_value())
         current_list.sort()
@@ -109,17 +139,8 @@ def compare(curr_list, prev_list):
         previous_list.sort()
 
 
-    if len(current_list) == 4 and current_list.count(current_list[0]) == 4:     # Check Bomb
-        if len(previous_list) == 4 and previous_list.count(previous_list[0]) == 4:
-            if int(current_list[0]) > int(previous_list[0]):
-                return True
-            return False
-        else:
-            if previous_list == ['13', '14']:
-                return False
-            return True
 
-    elif len(current_list) == 2 and int(current_list[0]) > 12 and int(current_list[1]) > 12:     # Check Rocket
+    if len(current_list) == 2 and int(current_list[0]) > 12 and int(current_list[1]) > 12:     # Check Rocket
         return True
 
     else:

@@ -1,4 +1,3 @@
-
 import random
 from straights import compare
 
@@ -167,34 +166,47 @@ class Game:
 
     def play(self):
         def check_input(user_input, player):
-           for card_index in user_input:
-               if int(card_index) < 0 or int(card_index) >= len(player.get_card()):
-                   return False 
-           return True
+            for card_index in user_input:
+                if int(card_index) < 0 or int(card_index) >= len(player.get_card()) or user_input.count(card_index) > 1:
+                    return False 
+            return True
        
        
         previous_card_lst = []
         won = False
+        pass_counter = 2
         counter = self.player_list.index(self.Dizhu)
         while not won:
             current_player = self.player_list[counter]
             done = False
+            no_card_use = False
             while not done:
                 print("\n\n{}'s cards: ".format(current_player.get_name(), end = ''))
                 current_player.print_card()
-                card_indexes = input('\n{}, please key in the index of the card(s) you want to use (index starts from 0): '.format(current_player.get_name())).split(' ')
+                card_indexes = input("\n{}, please key in the index of the card(s) you want to use (index starts from 0), '-1' if you do not want to use any cards: ".format(current_player.get_name())).split(' ')
                 current_card_lst = []
-                for card_index in card_indexes:
-                    current_card_lst.append(current_player.get_card()[int(card_index)])
-                done = (check_input(card_indexes, current_player) and compare(current_card_lst, previous_card_lst))
+                if card_indexes == ['-1']:
+                    if pass_counter < 2:
+                        pass_counter += 1
+                        done = True
+                        no_card_use = True
+                else:
+                    pass_counter = 0
+                    for card_index in card_indexes:
+                        current_card_lst.append(current_player.get_card()[int(card_index)])
+                    done = (check_input(card_indexes, current_player) and compare(current_card_lst, previous_card_lst))
                 if not done:
                     print('\nThe combination of cards is not valid!')
             card_indexes.sort(reverse=True)
-            for card_index in card_indexes:
-                current_player.remove_card(int(card_index))
+            if not no_card_use:
+                previous_card_lst = current_card_lst
+                for card_index in card_indexes:
+                    current_player.remove_card(int(card_index))
+            if pass_counter == 2:
+                previous_card_lst = []
             print("{}'s cards left: ".format(current_player.get_name(), end = ''))
             current_player.print_card()
-            previous_card_lst = current_card_lst
+
 
 
             if counter != 2:
