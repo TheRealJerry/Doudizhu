@@ -2,7 +2,7 @@ from fly import fei
 from random import shuffle
 
 print('Test 1: min value testing (ordered)')
-print('Result: ', fei([4,4,4,5,5,5,6,6,7,7], [0,0,0,1,1,1,2,2,3,3]), '  Correct Result: True\n')
+print('Result: ', fei([4,4,4,5,5,5,6,7], [0,0,0,1,1,1,2,3]), '  Correct Result: True\n')
 print('Test 2: max value testing (ordered)')
 print('Result: ', fei([11,11,11,12,12,12,10,10,9,9], [8,8,8,7,7,7,6,6,5,5]), '  Correct Result: True\n')
 print('Test 3: no prev value (ordered)')

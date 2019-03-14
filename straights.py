@@ -148,68 +148,75 @@ def compare(curr_list, prev_list):
             or single_card(current_list, previous_list)
 
 
+def fei(curr_lst, prev_lst):
+    if curr_lst == None:
+  
+        return False
+    def checker(lst):
+        char_lst = []
+        ele_counter = []
+        for ele in lst:
+            if [ele, lst.count(ele)] not in char_lst:
+                char_lst.append([ele, lst.count(ele)])
+                ele_counter.append(lst.count(ele))
+        if len(char_lst) != 4:
+
+            return False
+        else:  # feiji check
+            if ele_counter.count(3) != 2:
+
+                return False
+        three = []  # check if triple1 is > triple2 by 1
+        for ele in char_lst:
+            if ele[1] == 3:
+                three.append(int(ele[0]))
+        if min(three) + 1 != max(three):
+
+            return False
+        return True, min(three)
+
+    if prev_lst == None:
+        return checker(curr_lst)[0]
+    else:
+        if checker(curr_lst) == False:
+
+            return False
+        elif len(curr_lst) != len(prev_lst):
+
+            return False
+        else:
+
+            return checker(curr_lst) > checker(prev_lst)
 
 
+def check_3_card(curr_lst, prev_lst):
+    if curr_lst == None:
+        return False
+    def helper(lst):
+        if len(lst) != 5:
+            if len(lst) != 4:
 
+                return False
+        else:
+            char_lst = []
+            ele_counter = []
+            for ele in lst:
+                if [ele, lst.count(ele)] not in char_lst:
+                    char_lst.append([ele, lst.count(ele)])
+                    ele_counter.append(lst.count(ele))
+            if len(char_lst) != 2:
 
+                return False
+            else:  # feiji check
+                if ele_counter.count(3) != 1:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def check_3_card(combi):
-#     count1 = 0
-#     count2 = 0
-#     lst = []
-#     check = True
-#     if len(combi) == 4:
-#         for i in combi:
-#             if i not in lst:
-#                 lst.append(i)
-#             else:
-#                 if i  == lst[0]:
-#                     count1 += 1
-#                 elif i == lst[1]:
-#                     count2 +=1
-#         if count1 == 1 or count2 == 1:
-#             check = False
-#     elif len(combi) == 5:
-#         for i in combi:
-#             if i not in lst:
-#                 lst.append(i)
-#             else:
-#                 if i  == lst[0]:
-#                     count1 += 1
-#                 elif i == lst[1]:
-#                     count2 +=1
-#         if count1 + count2 != 3 and len(lst) != 2 and count1 == 0 or count2 == 0:
-#             check = False
-#     else:
-#         check = False
-
-#     return check
-            
-
-
-# def check_bigger(prev, curr): #  for triplets
-#     max_prev = max(prev,key=prev.count)
-#     max_curr = max(curr,key=curr.count)
-#     return max_prev < max_curr
-
-# #print(check_bigger(['1', '1', '1', '2', '2'], ['3', '3', '3', '4', '4']))
-# ##print(is_straight_pair(['2', '2','3', '3','4', '4'], ['1', '1', '2', '2','3', '3']))
+                    return False
+        return True, int(min(lst))
+    if prev_lst == None:
+        return helper(curr_lst)[0]
+    else:
+        if helper(prev_lst) == True:
+            return False
+        elif len(curr_lst) != len(prev_lst):
+            return False
+        return helper(curr_lst)[1] > helper(prev_lst)[1]
