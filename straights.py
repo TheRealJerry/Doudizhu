@@ -121,37 +121,16 @@ def bomb(curr_lst, prev_list):
             return True
 
 # test case
-print(bomb(['4','4','4','4'], ['5','5','5','5'])) # False
-print(bomb(['6','6','6','6'], ['3','3','3','3'])) # True
-print(bomb(['8','8','8','8'], ['13', '14'])) # False
+# print(bomb(['4','4','4','4'], ['5','5','5','5'])) # False
+# print(bomb(['6','6','6','6'], ['3','3','3','3'])) # True
+# print(bomb(['8','8','8','8'], ['13', '14'])) # False
 
-
-
-
-def compare(curr_list, prev_list):
-    current_list = []
-    previous_list = []
-    for ele in curr_list:
-        current_list.append(ele.get_value())
-        current_list.sort()
-    for ele in prev_list:
-        previous_list.append(ele.get_value())
-        previous_list.sort()
-
-
-
-    if len(current_list) == 2 and int(current_list[0]) > 12 and int(current_list[1]) > 12:     # Check Rocket
-        return True
-
-    else:
-        return straight(current_list, previous_list) or pair(current_list, previous_list) or straight_pair(current_list, previous_list) \
-            or single_card(current_list, previous_list)
 
 
 def fei(curr_lst, prev_lst):
-    if curr_lst == None:
-  
+    if curr_lst == []:
         return False
+
     def checker(lst):
         char_lst = []
         ele_counter = []
@@ -160,33 +139,34 @@ def fei(curr_lst, prev_lst):
                 char_lst.append([ele, lst.count(ele)])
                 ele_counter.append(lst.count(ele))
         if len(char_lst) != 4:
-
             return False
+
         else:  # feiji check
             if ele_counter.count(3) != 2:
-
                 return False
         three = []  # check if triple1 is > triple2 by 1
         for ele in char_lst:
             if ele[1] == 3:
                 three.append(int(ele[0]))
         if min(three) + 1 != max(three):
-
             return False
         return True, min(three)
 
-    if prev_lst == None:
+    if prev_lst == []:
         return checker(curr_lst)[0]
     else:
         if checker(curr_lst) == False:
-
             return False
         elif len(curr_lst) != len(prev_lst):
-
             return False
         else:
-
             return checker(curr_lst) > checker(prev_lst)
+
+# test case
+# print(fei(['4','4','4','5','5','5','6','7'], [])) # True
+# print(fei(['12','12','12','11','11','11','10','10','9','9'], ['8','8','8','7','7','7','6','6','5','5']))
+# print(fei(['12','12','12','10','10','10','8','8','9','9'], ['9','9','9','8','8','8','6','6','5','5']))
+
 
 
 def check_3_card(curr_lst, prev_lst):
@@ -220,3 +200,24 @@ def check_3_card(curr_lst, prev_lst):
         elif len(curr_lst) != len(prev_lst):
             return False
         return helper(curr_lst)[1] > helper(prev_lst)[1]
+
+
+
+
+
+def compare(curr_list, prev_list):
+    current_list = []
+    previous_list = []
+    for ele in curr_list:
+        current_list.append(ele.get_value())
+        current_list.sort()
+    for ele in prev_list:
+        previous_list.append(ele.get_value())
+        previous_list.sort()
+
+    if len(current_list) == 2 and int(current_list[0]) > 12 and int(current_list[1]) > 12:     # Check Rocket
+        return True
+
+    else:
+        return straight(current_list, previous_list) or pair(current_list, previous_list) or straight_pair(current_list, previous_list) \
+                or single_card(current_list, previous_list) or fei(current_list, previous_list) or check_3_card(current_list, previous_list)
