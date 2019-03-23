@@ -191,6 +191,8 @@ class Game:
                         pass_counter += 1
                         done = True
                         no_card_use = True
+                elif card_indexes == ['']:
+                    done = False
                 else:
                     pass_counter = 0
                     for card_index in card_indexes:
