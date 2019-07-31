@@ -203,11 +203,15 @@ class Game:
             card_indexes = list(map(lambda x:int(x), card_indexes))
             card_indexes.sort(reverse=True)
             
-            print(card_indexes)
+            # print(card_indexes)
+
             if not no_card_use:
                 previous_card_lst = current_card_lst
+                print('Cards used: ', end = '')
                 for card_index in card_indexes:
+                    print(current_player.get_card()[card_index], end = ' ')
                     current_player.remove_card(int(card_index))
+            print('')
             if pass_counter == 2:
                 previous_card_lst = []
             print("{}'s cards left: ".format(current_player.get_name(), end = ''))

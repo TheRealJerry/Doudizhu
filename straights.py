@@ -16,7 +16,7 @@ def straight(curr_lst, prev_lst):
         if prev_lst == []:
             return True
         elif helper(prev_lst):
-            if prev_lst[0] < curr_lst[0]:
+            if int(prev_lst[0])< int(curr_lst[0]):
                 return True
             else:
                 return False
@@ -39,7 +39,7 @@ def pair(curr_lst, prev_lst):
         if prev_lst == []:
             return True
         elif helper(prev_lst):
-            if prev_lst[0] < curr_lst[0]:
+            if int(prev_lst[0]) < int(curr_lst[0]):
                 return True
             else:
                 return False
@@ -77,7 +77,7 @@ def straight_pair(curr_lst, prev_lst):
             if prev_lst == []:
                 return True
             elif helper2(prev_lst, [str(int(prev_lst[0])-1), str(int(prev_lst[0])-1)]):
-                if prev_lst[0] < curr_lst[0] and len(prev_lst) == len(curr_lst):
+                if int(prev_lst[0]) < int(curr_lst[0]) and len(prev_lst) == len(curr_lst):
                     return True
         return False
 
@@ -90,7 +90,7 @@ def straight_pair(curr_lst, prev_lst):
 # print(straight_pair(['3','3','4','4','5','5','6','6'],['1','1','2','2','3','3'])) # False
 # print(straight_pair(['3','3','4','4','5','5','6','6'],['0','0','1','1','2','2','3','3'])) # True
 # print(straight_pair(['3','3','4','4','5','5','6','6'],[])) # True
-
+# print(straight_pair(['4','4','5','5','6','6'],[]))
 
 
 def single_card(curr_lst, prev_lst):
@@ -169,6 +169,7 @@ def fei(curr_lst, prev_lst):
 # print(fei(['4','4','4','5','5','5','6','7'], [])) # True
 # print(fei(['12','12','12','11','11','11','10','10','9','9'], ['8','8','8','7','7','7','6','6','5','5']))
 # print(fei(['12','12','12','10','10','10','8','8','9','9'], ['9','9','9','8','8','8','6','6','5','5']))
+# print(fei(['12','12','12','10','10','10','8','8','9','9'], ['0','0','0','0']))
 
 
 def check_3_card(curr_lst, prev_lst):
@@ -204,19 +205,19 @@ def check_3_card(curr_lst, prev_lst):
     else:
         if prev_lst == []:
             return True
-        elif helper(prev_lst) is True:
+        elif helper(prev_lst) is False:
             return False
         elif len(curr_lst) != len(prev_lst):
             return False
         return helper(curr_lst)[1] > helper(prev_lst)[1]
 
 # test case
-# print(check_3_card(['10','10','10','1'],['9','9','9','2'])) # True
-# print(check_3_card(['11','11','11','3'],['12','12','12','2'])) # False
-# print(check_3_card(['9','9','9','2','2'],['5','5','5','1','1'])) # True
-# print(check_3_card(['9','9','9','2'],['5','5','5','1','1'])) # False
-# print(check_3_card(['1','1','1','2'],[])) # True
-
+##print(check_3_card(['10','10','10','1'],['9','9','9','2'])) # True
+##print(check_3_card(['11','11','11','3'],['12','12','12','2'])) # False
+##print(check_3_card(['9','9','9','2','2'],['5','5','5','1','1'])) # True
+##print(check_3_card(['9','9','9','2'],['5','5','5','1','1'])) # False
+##print(check_3_card(['1','1','1','2'],[])) # True
+##print(check_3_card(['1','1','1','2'],['0','0','0','0'])) # True
 
 
 def check_4_card(curr_lst, prev_lst):
@@ -274,7 +275,7 @@ def check_4_card(curr_lst, prev_lst):
 # print(check_4_card(['12','12','12','12','5','2','3','2'],['11','11','11','11','8','8','3','3'])) # False
 # print(check_4_card(['8','8','8','8','5','5','3','3'],['11','11','11','11','8','8','3','3'])) # False
 # print(check_4_card(['12','12','12','12','5','5','3','3'],['11','11','11','11','8','8'])) # False
-
+# print(check_4_card(['12','12','12','12','5','5','3','3'],['0','0','0','0']))
 
 
 
